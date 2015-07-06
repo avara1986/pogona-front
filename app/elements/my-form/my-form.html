@@ -1,0 +1,78 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/lib/iron-ajax/iron-ajax.html">
+<link rel="import" href="/lib/paper-input/paper-input.html">
+<link rel="import" href="/lib/paper-input/paper-textarea.html">
+<link rel="import" href="/lib/paper-button/paper-button.html">
+<dom-module id="my-form">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+    <template>
+    <form is="iron-form" id="send-mail" method="post" >
+        <paper-input name="to" label="Send to" value="{{email.to}}"></paper-input>
+        <paper-input name="subject" label="Subject" value="{{email.subject}}"></paper-input>
+        <div  class="horizontal layout">
+         <div class="flex">
+            <paper-textarea name="content" label="Mail Content" value="{{email.content}}" on-change="showHTML"></paper-textarea>
+         </div>
+         <div class="flex">
+            <div id="message_area" html="{{email.content}}"></div>
+         </div>
+        </div>
+        <div class="vertical layout end" style="height:100px">
+            <div tool><paper-button raised on-tap="sendMail">send</paper-button></div>
+        </div>
+        
+    </form>
+    <iron-ajax
+        id="ajax"
+        url="http://pogona-2015.appspot.com/send-mail"
+        method="POST"
+        handle-as="json"
+        content-type="application/json"
+        body="{{email}}"
+        on-response="handleResponse"
+        debounce-duration="300"></iron-ajax>
+    </template>
+</dom-module>
+<script>
+  (function () {
+    Polymer({
+      is: 'my-form',
+      properties: {
+          email: {
+              type: Object,
+              value: function () {
+                  return {};
+              }
+          },
+      },
+      showHTML: function() {
+          // WARNING: potential XSS vulnerability if `html` comes from an untrusted source
+          console.log(this.email);
+          this.$.message_area.innerHTML = this.email.content;
+        },
+      sendMail: function () {
+          console.log(JSON.stringify(this.email));
+          this.$.ajax.params = this.email;
+          this.$.ajax.generateRequest();
+      },
+      handleResponse: function(request) {
+          console.log(request.detail.response);
+          console.log(this.$.ajax.lastResponse);
+        }
+    });
+  })();
+</script>
