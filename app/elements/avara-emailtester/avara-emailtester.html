@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="/lib/paper-input/paper-input.html">
 <link rel="import" href="/lib/paper-input/paper-textarea.html">
 <link rel="import" href="/lib/paper-button/paper-button.html">
-<dom-module id="my-form">
+<dom-module id="avara-emailtester">
   <style>
     :host {
       display: block;
@@ -21,10 +21,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </style>
     <template>
     <form is="iron-form" id="send-mail" method="post" >
-        <paper-input name="to" label="Send to" value="{{email.to}}"></paper-input>
-        <paper-input name="subject" label="Subject" value="{{email.subject}}"></paper-input>
+        <paper-input name="to" label="Send to" value="{{email.to}}" autoValidate="true"></paper-input>
+        <paper-input name="subject" label="Subject" value="{{email.subject}}" auto-validate="true"></paper-input>
         <div  class="horizontal layout">
-         <div class="flex">
+         <div class="flex" style="height: 150px;overflow: hidden;position: relative;">
             <paper-textarea name="content" label="Mail Content" value="{{email.content}}" on-change="showHTML"></paper-textarea>
          </div>
          <div class="flex">
@@ -37,20 +37,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
     </form>
     <iron-ajax
-        id="ajax"
+        id="sendform"
         url="http://pogona-2015.appspot.com/send-mail"
-        method="POST"
         handle-as="json"
         content-type="application/json"
-        body="{{email}}"
         on-response="handleResponse"
+        on-error="handleError"
         debounce-duration="300"></iron-ajax>
     </template>
+
 </dom-module>
 <script>
   (function () {
     Polymer({
-      is: 'my-form',
+      is: 'avara-emailtester',
       properties: {
           email: {
               type: Object,
@@ -61,17 +61,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       showHTML: function() {
           // WARNING: potential XSS vulnerability if `html` comes from an untrusted source
-          console.log(this.email);
+          //console.log(this.email);
           this.$.message_area.innerHTML = this.email.content;
         },
       sendMail: function () {
           console.log(JSON.stringify(this.email));
-          this.$.ajax.params = this.email;
-          this.$.ajax.generateRequest();
+          this.$.sendform.method = "POST";
+          this.$.sendform.params = this.email;
+          this.$.sendform.generateRequest();
       },
       handleResponse: function(request) {
+          console.log("Ok");
           console.log(request.detail.response);
-          console.log(this.$.ajax.lastResponse);
+          if(request.detail.response.success == true) {
+              document.querySelector('#resultsendok').show()
+          }else{
+              document.querySelector('#resultsenderror').show()
+          }
+          
+          //this.$.resultsendok.show()
+        },
+      handleError: function(request, error) {
+          console.log("Error");
+          console.log(request);
+          console.log(error);
+          //this.$.resultsenderror.show()
+          document.querySelector('#resultsenderror').show()
         }
     });
   })();

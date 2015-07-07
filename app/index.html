@@ -5,7 +5,7 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <meta name="generator" content="Polymer " />
-  <title>Ejemplo APP: uso de la plantilla de polymer starter kit de Google</title>
+  <title>Pogona. Be designer is easy ;)</title>
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
   <!-- Chrome for Android theme color -->
@@ -56,17 +56,20 @@
                 <iron-icon icon="home"></iron-icon>
                 <span>Home</span>
               </a>
-              <!-- 
-              <a data-route="categories" href="/categories">
+              
+              <a data-route="maps" href="/maps">
                 <iron-icon icon="info"></iron-icon>
-                <span>Users</span>
+                <span>do you wanna a break?</span>
               </a>
-
-              <a data-route="profile" href="/profile">
+              <a data-route="testmail" href="/testmail">
+                <iron-icon icon="info"></iron-icon>
+                <span>Test mail</span>
+              </a>
+              <a data-route="beautify" href="http://cssbeautifier.com/" target="_blank">
                 <iron-icon icon="face"></iron-icon>
-                <span>Profilepepe</span>
+                <span>CSS Beautifier</span>
               </a>
-               -->
+               <!-- -->
           </paper-menu>
       </div>
       <paper-header-panel main mode="waterfall-tall">
@@ -83,7 +86,7 @@
           <!-- Application name -->
           <!-- <iron-image style="width:400px; height:400px;" sizing="cover" src="/images/logo.jpg"></iron-image>-->
           <div class="middle paper-font-display2 app-name">
-          Pogona Mail tester</div>
+          Pogona. Be designer is easy ;)</div>
 
           <!-- Application sub title -->
           <div class="bottom title"></div>
@@ -96,20 +99,26 @@
 
             <section data-route="home">
               <paper-material elevation="1">
+                <h2 class="paper-font-display2">Home</h2>
+                list of resources to designers
+              </paper-material>
+            </section>
+            
+            <section data-route="maps">
+              <paper-material elevation="1">
+                <h2 class="paper-font-display2">Do you wanna a break?</h2>
+
+                <avara-break></avara-break>
+
+              </paper-material>
+            </section>
+            <section data-route="testmail">
+              <paper-material elevation="1">
                 <h2 class="paper-font-display2">Send</h2>
-                <my-form></my-form>
+                <avara-emailtester></avara-emailtester>
               </paper-material>
             </section>
             <!-- 
-            <section data-route="categories">
-              <paper-material elevation="1">
-                <h2 class="paper-font-display2">Categories</h2>
-
-                <categorie-table></categorie-table>
-
-              </paper-material>
-            </section>
-
             <section data-route="profile">
               <paper-material elevation="1">
                 <h2 class="paper-font-display2">Contact</h2>
@@ -119,13 +128,17 @@
             </section>
              -->
           </iron-pages>
+
         </div>
       </paper-header-panel>
     </paper-drawer-panel>
-
-     <paper-toast id="caching-complete"
-             duration="6000"
-             text="Caching complete! This app will work offline.">
+    <paper-toast id="resultsendok"
+       duration="4000"
+       text="Your request was send ok">
+    </paper-toast>
+    <paper-toast id="resultsenderror"
+       duration="4000"
+       text="There was an error on your request!!! :(">
     </paper-toast>
   </template>
 
