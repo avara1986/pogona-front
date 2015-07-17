@@ -106,7 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.message_area.innerHTML = this.email.content;
         },
       checkMail: function () {
-          this.email_chunked = this.chunkString(this.email.content,900);
+          this.email_chunked = this.chunkString(this.email.content,600);
           if (this.email_chunked['length'] <= 1){
                 this.$.sendmail.params = this.email;
                 this.$.sendmail.generateRequest();
@@ -158,7 +158,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 }else{
                     pos = parseInt(pos) +1 ;
                 }
-                if(pos < 20){
+                if(pos < 40){
                     if(pos < this.email_chunked['length']){
                         this.updateProgress(pos,this.email_chunked['length']);
                         this.chunkEmail(pos, this.email_chunked[pos]);
