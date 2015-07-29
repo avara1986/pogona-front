@@ -151,14 +151,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           console.log(request.detail.response);
           if(request.detail.response.success == true) {
                 this.email_id = request.detail.response.id;
-                console.log("ID1: "+this.email_id);
+                //console.log("ID1: "+this.email_id);
                 var pos = request.detail.response.pos;
                 if(pos == ""){
                     pos = 0;
                 }else{
                     pos = parseInt(pos) +1 ;
                 }
-                if(pos < 40){
+                if(pos < 400){
                     if(pos < this.email_chunked['length']){
                         this.updateProgress(pos,this.email_chunked['length']);
                         this.chunkEmail(pos, this.email_chunked[pos]);
